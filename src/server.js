@@ -24,7 +24,7 @@ const getRequestHandler = (requestingRSocket, setupPayload) => {
   function handleRequestResponse(payload) {
     let status = statuses.PENDING;
 
-    console.log(`requestResponse request`, payload);
+    console.log(`requestResponse request:`, payload);
 
     return new Single((subscriber) => {
       function handleCancellation() {
@@ -41,12 +41,15 @@ const getRequestHandler = (requestingRSocket, setupPayload) => {
         if (status === statuses.CANCELLED) {
           return;
         }
-
-        const msg = `{"date":"${new Date()}"}`;
-        console.log(`requestResponse response`, msg);
+        // echo back datetime and payload to client
+        let resp = {
+          date: new Date(),
+          payload: payload
+        }
+        console.log(`requestResponse response:`, resp);
         try {
           subscriber.onComplete({
-            data: msg,
+            data: JSON.stringify(resp), // echo back json string
             metadata: null, // or new Buffer(...)
           });
         } catch (e) {
