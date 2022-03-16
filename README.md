@@ -15,3 +15,11 @@ yarn
 ```shell
 yarn start
 ```
+
+### Test Client
+
+Runs test client to send request/response message to the server
+
+```shell
+yarn test
+```
